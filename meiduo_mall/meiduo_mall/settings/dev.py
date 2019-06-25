@@ -339,4 +339,8 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     # 过期时间　jwt-token
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    # 配置重写的响应结果
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+    'meiduo_admin.utils.jwt_response_payload_handler',
+
 }
