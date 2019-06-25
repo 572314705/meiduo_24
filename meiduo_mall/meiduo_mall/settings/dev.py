@@ -325,3 +325,18 @@ CORS_ORIGIN_WHITELIST = (
     'api.meiduo.site:8000'
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
+
+
+REST_FRAMEWORK = {
+    # 全局配置文件
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # JWT认证
+        'rest_framework.authentication.SessionAuthentication',  # session认证
+        'rest_framework.authentication.BasicAuthentication',  # 表单认证
+    ),
+}
+
+JWT_AUTH = {
+    # 过期时间　jwt-token
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+}
