@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -34,36 +34,63 @@ class UserDayCountView(APIView):
             'date': now_date,
         })
 
+
 class UserActiveCountView(APIView):
     # 查询日活跃用户
-    def get(self,request):
+    def get(self, request):
         # 获取当前日期
         now_date = date.today()
         # 查询当日活跃用户用户 last_login记录最后登录时间
-        count = User.objects.filter(is_staff=False,last_login__gte=now_date).count()
+        count = User.objects.filter(is_staff=False, last_login__gte=now_date).count()
         # 返回结果
         return Response({
-            'count':count,
-            'date':now_date,
+            'count': count,
+            'date': now_date,
         })
+
+
 class UserOrderCountView(APIView):
     # 查询日下单用户
 
     # 指定权限
     permission_classes = [IsAdminUser]
-    def get(self,request):
+
+    def get(self, request):
         # 获取当前日期
         now_date = date.today()
         # 查询当日下单用户　关联过滤查询　以订单表数据做为用户表查询条件
         # count = User.objects.filter(is_staff=False,orders__create_time__gte=now_date).count()
-        users = User.objects.filter(is_staff=False,orders__create_time__gte=now_date)
+        users = User.objects.filter(is_staff=False, orders__create_time__gte=now_date)
         # 下单用户数
         user = set(users)
         count = len(user)
 
-
         # 返回结果
         return Response({
-            'count':count,
-            'date':now_date,
+            'count': count,
+            'date': now_date,
         })
+
+
+class UserMonthCountView(APIView):
+    permission_classes = [IsAdminUser]
+
+    # 月增用户
+    def get(self, request):
+        # 当天日期
+        now_date = date.today()
+        # 一个月前的日期
+        old_date = now_date - timedelta(30)
+        # 一个月的新增用户
+        user_date = []
+        for i in range(31):
+            # 一个月前的日期
+            index＿date = old_date + timedelta(i)
+            # 一个月前的下一甜日期
+            next_date = old_date + timedelta(i + 1)
+            count = User.objects.filter(is_staff=False, date_joined__gte=index＿date, date_joined__lt=next_date).count()
+            user_date.append({
+                'count': count,
+                'date': next_date,
+            })
+        return Response(user_date)

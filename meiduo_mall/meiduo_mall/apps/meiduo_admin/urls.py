@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^statistical/day_active/$',statistical.UserActiveCountView.as_view()),
     # 日下单用户
     url(r'^statistical/day_orders/$',statistical.UserOrderCountView.as_view()),
+    # 月增用户
+    url(r'^statistical/month_increment/$',statistical.UserMonthCountView.as_view()),
 ]
