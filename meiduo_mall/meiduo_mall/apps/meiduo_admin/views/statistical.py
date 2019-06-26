@@ -55,7 +55,13 @@ class UserOrderCountView(APIView):
         # 获取当前日期
         now_date = date.today()
         # 查询当日下单用户　关联过滤查询　以订单表数据做为用户表查询条件
-        count = User.objects.filter(is_staff=False,orders__create_time__gte=now_date).count()
+        # count = User.objects.filter(is_staff=False,orders__create_time__gte=now_date).count()
+        users = User.objects.filter(is_staff=False,orders__create_time__gte=now_date)
+        # 下单用户数
+        user = set(users)
+        count = len(user)
+
+
         # 返回结果
         return Response({
             'count':count,
