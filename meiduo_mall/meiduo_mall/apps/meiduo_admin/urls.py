@@ -1,11 +1,12 @@
 from django.conf.urls import url
 from rest_framework_jwt.views import obtain_jwt_token
 
-from meiduo_admin.views import statistical
+from meiduo_admin.views import statistical,users
 
 urlpatterns = [
     # 登录路由
     url(r'^authorizations/$', obtain_jwt_token),
+#----------数据统计－－－－－－－
     # 用户总数统计
     url(r'^statistical/total_count/$',statistical.UserTotalCountView.as_view()),
     # 日增用户统计
@@ -18,4 +19,7 @@ urlpatterns = [
     url(r'^statistical/month_increment/$',statistical.UserMonthCountView.as_view()),
     # 日分类商品访问量
     url(r'^statistical/goods_day_views/$',statistical.GoodsDayView.as_view()),
+
+    #----------用户管理－－－－－－－
+    url(r'^users/$',users.UserView.as_view()),
 ]
