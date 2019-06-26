@@ -1,8 +1,10 @@
 from datetime import date, timedelta
 
+from rest_framework import serializers
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
+from goods.models import GoodsVisitCount
 from users.models import User
 from rest_framework.views import APIView
 
@@ -94,3 +96,37 @@ class UserMonthCountView(APIView):
                 'date': next_date,
             })
         return Response(user_date)
+
+# class GoodsDayView(APIView):
+#     # 日商品分类访问量
+#     def get(self,request):
+#         # 当天日期
+#         now_date = date.today()
+#         # 获取对象查询集
+#         goods = GoodsVisitCount.objects.filter(date=now_date)
+#         date_list = []
+#         for good in goods:
+#             date_list.append({
+#                 'count':good.count,
+#                 'category':good.category.name,
+#             })
+#         return Response(date_list)
+class GoodsSerializer(serializers.ModelSerializer):
+    # 指定返回分类名称
+    category=serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model=GoodsVisitCount
+        fields=('count','category')
+
+class GoodsDayView(APIView):
+
+    def get(self,request):
+        # 获取当天日期
+        now_date=date.today()
+        # 获取当天访问的商品分类数量信息
+        data=GoodsVisitCount.objects.filter(date=now_date)
+        # 序列化返回分类数量
+        ser=GoodsSerializer(data,many=True)
+
+        return Response(ser.data)
+
