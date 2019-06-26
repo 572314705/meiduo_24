@@ -32,3 +32,16 @@ class UserDayCountView(APIView):
             'count': count,
             'date': now_date,
         })
+
+class UserActiveCountView(APIView):
+    # 查询日活跃用户
+    def get(self,request):
+        # 获取当前日期
+        now_date = date.today()
+        # 查询当日活跃用户用户 last_login记录最后登录时间
+        count = User.objects.filter(is_staff=False,last_login__gte=now_date).count()
+        # 返回结果
+        return Response({
+            'count':count,
+            'date':now_date,
+        })
