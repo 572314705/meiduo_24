@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView,CreateAPIView,ListCreateAPIView
 from rest_framework.permissions import IsAdminUser
 
 from meiduo_admin.serializer.users import UserSerializer
@@ -6,7 +6,8 @@ from meiduo_admin.utils import PageNum
 from users.models import User
 
 
-class UserView(ListAPIView):
+class UserView(ListCreateAPIView):
+
     # 指定序列化器
     serializer_class = UserSerializer
     # 指定查询集
@@ -24,3 +25,5 @@ class UserView(ListAPIView):
             return User.objects.filter(is_staff=False)
         else:
             return User.objects.filter(is_staff=False,username__contains=keyword)
+
+
