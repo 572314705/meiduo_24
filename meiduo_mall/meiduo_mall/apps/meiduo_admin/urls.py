@@ -1,8 +1,9 @@
 from django.conf.urls import url
 from rest_framework_jwt.views import obtain_jwt_token
 
+from meiduo_admin.views import specs
 from meiduo_admin.views import statistical,users
-
+from rest_framework.routers import DefaultRouter
 urlpatterns = [
     # 登录路由
     url(r'^authorizations/$', obtain_jwt_token),
@@ -23,3 +24,8 @@ urlpatterns = [
     #----------用户管理－－－－－－－
     url(r'^users/$',users.UserView.as_view()),
 ]
+# ----------用户管理－－－－－－－
+router = DefaultRouter()
+router.register(r'goods/specs',specs.SpecsView,base_name='spec')
+urlpatterns += router.urls
+print(router.urls)
