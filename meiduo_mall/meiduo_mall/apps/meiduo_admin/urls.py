@@ -23,8 +23,10 @@ urlpatterns = [
 
     #----------用户管理－－－－－－－
     url(r'^users/$',users.UserView.as_view()),
+    # ----------商品规格表管理管理－－－－－－－
+    url(r'^goods/simple/$',specs.SpecsView.as_view({'get':'simple'}))
 ]
-# ----------用户管理－－－－－－－
+# ----------商品规格表管理管理－－－－－－－
 router = DefaultRouter()
 router.register(r'goods/specs',specs.SpecsView,base_name='spec')
 urlpatterns += router.urls

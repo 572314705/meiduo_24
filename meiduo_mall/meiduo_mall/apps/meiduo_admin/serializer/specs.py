@@ -13,4 +13,14 @@ class SpecsSerializer(serializers.ModelSerializer):
         # 指定是根据那个模型类生成的序列化器
         model = SPUSpecification
         # 生成的字段
-        fields = ('id','name','spu','spu_id')
+        fields = ('id', 'name', 'spu', 'spu_id')
+
+
+class SPUSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        # 指定是根据那个模型类生成的序列化器
+        model = SPUSpecification
+        # 生成的字段
+        fields = ('id', 'name')
