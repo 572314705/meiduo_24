@@ -26,7 +26,10 @@ urlpatterns = [
     # ----------用户管理－－－－－－－
     url(r'^users/$', users.UserView.as_view()),
     # ----------商品规格表管理管理－－－－－－－
-    url(r'^goods/simple/$', specs.SpecsView.as_view({'get': 'simple'}))
+    url(r'^goods/simple/$', specs.SpecsView.as_view({'get': 'simple'})),
+    # --------------商品图片表管理--------------
+    url(r'^skus/simple/$', images.ImageView.as_view({'get': 'simple'})),
+
 ]
 # ----------商品规格表管理管理－－－－－－－
 router = DefaultRouter()

@@ -326,11 +326,10 @@ CORS_ORIGIN_WHITELIST = (
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
-
 REST_FRAMEWORK = {
     # 全局配置文件
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # JWT认证
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # JWT认证
         'rest_framework.authentication.SessionAuthentication',  # session认证
         'rest_framework.authentication.BasicAuthentication',  # 表单认证
     ),
@@ -341,6 +340,9 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
     # 配置重写的响应结果
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'meiduo_admin.utils.jwt_response_payload_handler',
+        'meiduo_admin.utils.jwt_response_payload_handler',
 
 }
+
+# FASTDFS配置
+FASTDFS_CONF = os.path.join(BASE_DIR, 'utils/fdfs/client.conf')
