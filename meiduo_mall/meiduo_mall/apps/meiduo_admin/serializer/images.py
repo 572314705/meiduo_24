@@ -1,6 +1,6 @@
 from django.conf import settings
 from rest_framework import serializers
-
+from celery_tasks.detail_html.tasks import get_detail_html
 from goods.models import SKUImage, SKU
 from fdfs_client.client import Fdfs_client
 
@@ -29,6 +29,9 @@ class ImageSerializer(serializers.ModelSerializer):
         img_url = res['Remote file_id']
         # 将路径信息保存在图片表中
         image = SKUImage.objects.create(image=img_url, sku_id=sku_id)
+
+        # 调用异步任务
+        get_detail_html.delay(image.sku.id)
         # 返回图片表对象
         return image
 
@@ -42,6 +45,9 @@ class ImageSerializer(serializers.ModelSerializer):
 
         instance.image = image_url
         instance.save()
+
+        # 调用异步任务
+        get_detail_html.delay(instance.sku.id)
         return instance
 
 
