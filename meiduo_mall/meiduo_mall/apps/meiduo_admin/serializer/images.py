@@ -32,6 +32,18 @@ class ImageSerializer(serializers.ModelSerializer):
         # 返回图片表对象
         return image
 
+    def update(self, instance, validated_data):
+        image_data = validated_data.get('image')
+        client = Fdfs_client(settings.FASTDFS_CONF)
+        res = client.upload_by_buffer(image_data.read())
+        if res['Status'] != 'Upload successed.':
+            raise serializers.ValidationError('上传图片失败')
+        image_url = res['Remote file_id']
+
+        instance.image = image_url
+        instance.save()
+        return instance
+
 
 
 class SKUSerializer(serializers.ModelSerializer):
