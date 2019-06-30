@@ -18,7 +18,7 @@ class OrderView(ReadOnlyModelViewSet):
     def get_queryset(self):
         # 1、获取前端的keyword参数
         keyword = self.request.query_params.get('keyword')
-        if keyword == '':
+        if keyword == '' or keyword == None:
             return OrderInfo.objects.all()
         else:
             return OrderInfo.objects.filter(order_id__contains=keyword)
