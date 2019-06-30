@@ -1,8 +1,9 @@
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, ContentType
 from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from meiduo_admin.serializer.permission import PermissionSerializer
+from meiduo_admin.serializer.permission import PermissionSerializer, ContentTypeSerializer
 from meiduo_admin.utils import PageNum
 
 
@@ -16,3 +17,11 @@ class PermissionView(ModelViewSet):
     pagination_class = PageNum
     # 指定权限
     permission_classes = [IsAdminUser]
+
+    # 定义权限类型表操作
+    def content_types(self, request):
+        # 查询所有权限类型
+        contenttype = ContentType.objects.all()
+        # 返回权限类型
+        ser = ContentTypeSerializer(contenttype,many=True)
+        return Response(ser.data)

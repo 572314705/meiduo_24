@@ -32,8 +32,10 @@ urlpatterns = [
     url(r'^goods/simple/$', specs.SpecsView.as_view({'get': 'simple'})),
     # --------------商品图片表管理--------------
     url(r'^skus/simple/$', images.ImageView.as_view({'get': 'simple'})),
-# --------------SKU表管理--------------
+    # --------------SKU表管理--------------
     url(r'^goods/(?P<pk>\d+)/specs/$', skus.SKUViewSet.as_view({'get': 'specs'})),
+    # --------------系统权限表管理--------------
+    url(r'^permission/content_types/$', permission.PermissionView.as_view({'get': 'content_types'})),
 
 ]
 # ----------商品规格表管理管理－－－－－－－
@@ -41,25 +43,24 @@ router = DefaultRouter()
 router.register(r'goods/specs', specs.SpecsView, base_name='spec')
 urlpatterns += router.urls
 
-
 # --------------商品图片表管理--------------
 router = DefaultRouter()
 router.register(r'skus/images', images.ImageView, base_name='image')
 urlpatterns += router.urls
 # --------------SKU表管理--------------
-router =DefaultRouter()
-router.register(r'skus',skus.SKUViewSet,base_name='skus')
+router = DefaultRouter()
+router.register(r'skus', skus.SKUViewSet, base_name='skus')
 
-urlpatterns +=router.urls
+urlpatterns += router.urls
 
 # --------------SKU表管理--------------
-router =DefaultRouter()
-router.register(r'orders',orders.OrderView,base_name='orders')
+router = DefaultRouter()
+router.register(r'orders', orders.OrderView, base_name='orders')
 
-urlpatterns +=router.urls
+urlpatterns += router.urls
 
 # --------------系统权限表管理--------------
-router =DefaultRouter()
-router.register(r'permission/perms',permission.PermissionView,base_name='perms')
+router = DefaultRouter()
+router.register(r'permission/perms', permission.PermissionView, base_name='perms')
 
-urlpatterns +=router.urls
+urlpatterns += router.urls
