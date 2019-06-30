@@ -45,4 +45,5 @@ urlpatterns += router.urls
 # --------------商品图片表管理--------------
 router =DefaultRouter()
 router.register(r'skus',skus.SKUViewSet,base_name='skus')
+print(router.urls)
 urlpatterns +=router.urls
