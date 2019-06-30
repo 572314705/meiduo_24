@@ -3,6 +3,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 from meiduo_admin.views import images
 from meiduo_admin.views import orders
+from meiduo_admin.views import permission
 from meiduo_admin.views import skus
 from meiduo_admin.views import specs
 from meiduo_admin.views import statistical, users
@@ -54,5 +55,11 @@ urlpatterns +=router.urls
 # --------------SKU表管理--------------
 router =DefaultRouter()
 router.register(r'orders',orders.OrderView,base_name='orders')
+
+urlpatterns +=router.urls
+
+# --------------系统权限表管理--------------
+router =DefaultRouter()
+router.register(r'permission/perms',permission.PermissionView,base_name='perms')
 
 urlpatterns +=router.urls
