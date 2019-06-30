@@ -1,4 +1,6 @@
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from meiduo_admin.serializer.orders import OrderSerializer
@@ -22,3 +24,20 @@ class OrderView(ReadOnlyModelViewSet):
             return OrderInfo.objects.all()
         else:
             return OrderInfo.objects.filter(order_id__contains=keyword)
+
+    # 修改订单状态
+    @action(methods=['put'], detail=True)
+    def status(self, request, pk):
+        # 查询订单信息
+        try:
+            order = OrderInfo.objects.get(order_id=pk)
+        except:
+            return Response({'error': '无效的订单编号'})
+        # 修改订单状态
+        status = request.data.get('status')
+        order.status = status
+        order.save()
+        # 返回订单信息
+
+        ser = self.get_serializer(order)
+        return Response(ser.data)
