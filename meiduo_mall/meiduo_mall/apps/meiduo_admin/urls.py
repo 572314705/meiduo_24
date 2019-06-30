@@ -3,7 +3,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 from meiduo_admin.views import images
 from meiduo_admin.views import orders
-from meiduo_admin.views import permission,groups
+from meiduo_admin.views import permission, groups
 from meiduo_admin.views import skus
 from meiduo_admin.views import specs
 from meiduo_admin.views import statistical, users
@@ -36,6 +36,8 @@ urlpatterns = [
     url(r'^goods/(?P<pk>\d+)/specs/$', skus.SKUViewSet.as_view({'get': 'specs'})),
     # --------------系统权限表管理--------------
     url(r'^permission/content_types/$', permission.PermissionView.as_view({'get': 'content_types'})),
+    # --------------用户组管理--------------
+    url(r'^permission/simple/$', groups.GroupView.as_view({'get': 'simple'}))
 
 ]
 # ----------商品规格表管理管理－－－－－－－
