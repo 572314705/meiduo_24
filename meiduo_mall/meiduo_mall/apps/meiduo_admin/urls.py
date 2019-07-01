@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from rest_framework_jwt.views import obtain_jwt_token
 
+from meiduo_admin.views import admins
 from meiduo_admin.views import images
 from meiduo_admin.views import orders
 from meiduo_admin.views import permission, groups
@@ -37,7 +38,8 @@ urlpatterns = [
     # --------------系统权限表管理--------------
     url(r'^permission/content_types/$', permission.PermissionView.as_view({'get': 'content_types'})),
     # --------------用户组管理--------------
-    url(r'^permission/simple/$', groups.GroupView.as_view({'get': 'simple'}))
+    url(r'^permission/simple/$', groups.GroupView.as_view({'get': 'simple'})),
+    url(r'^permission/groups/simple/$', admins.AdminView.as_view({'get': 'simple'})),
 
 ]
 # ----------商品规格表管理管理－－－－－－－
@@ -72,3 +74,9 @@ router = DefaultRouter()
 router.register(r'permission/groups', groups.GroupView, base_name='perms')
 
 urlpatterns += router.urls
+
+# -------------管理员用户-------------
+router = DefaultRouter()
+router.register(r'permission/admins',admins.AdminView,base_name='admins')
+urlpatterns += router.urls
+
