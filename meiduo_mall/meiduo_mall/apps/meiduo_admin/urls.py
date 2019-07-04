@@ -7,6 +7,7 @@ from meiduo_admin.views import orders
 from meiduo_admin.views import permission, groups
 from meiduo_admin.views import skus
 from meiduo_admin.views import specs
+from meiduo_admin.views import spus
 from meiduo_admin.views import statistical, users
 from rest_framework.routers import DefaultRouter
 
@@ -40,6 +41,18 @@ urlpatterns = [
     # --------------用户组管理--------------
     url(r'^permission/simple/$', groups.GroupView.as_view({'get': 'simple'})),
     url(r'^permission/groups/simple/$', admins.AdminView.as_view({'get': 'simple'})),
+
+    # -------------SPU表管理 获取品牌信息-------------
+    url(r'^goods/brands/simple/$', spus.SPUViewSet.as_view({'get': 'brand'})),
+    url(r'^goods/channel/categories/$', spus.SPUViewSet.as_view({'get': 'channel'})),
+    url(r'^goods/channel/categories/(?P<pk>\d+)/$', spus.SPUViewSet.as_view({'get': 'channels'})),
+
+    url(r'^goods/images/$', spus.SPUViewSet.as_view({'post': 'image'})),
+    # url(r'^goods/(?P<pk>\d+)/$', spus.SPUViewSet.as_view({'get': 'retrieve'})),
+
+
+
+
 
 ]
 # ----------商品规格表管理管理－－－－－－－
@@ -79,4 +92,10 @@ urlpatterns += router.urls
 router = DefaultRouter()
 router.register(r'permission/admins',admins.AdminView,base_name='admins')
 urlpatterns += router.urls
+
+# -------------SPU表管理-------------
+router = DefaultRouter()
+router.register(r'goods',spus.SPUViewSet,base_name='goods')
+urlpatterns += router.urls
+print(router.urls)
 
